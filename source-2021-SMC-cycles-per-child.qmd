@@ -1,0 +1,43 @@
+# Source: 2021 SMC cycles received per child {#sec-smc-per-child}
+
+The table below is from [Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf)
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(zoo)
+options(knitr.kable.NA = '')
+```
+
+## Table 25: Proportions of eligible children (3–59 months) who received day 1 SPAQ by community distributors by number of cycles during 2021 (EoR survey), by country
+
+Because of the merged cells and combined variables, we tidy this table up before displaying it.
+
+```{r}
+t_25 <-read_excel("sources/2021/malaria-consortium-2021-table-25.xlsx",
+           col_types = c("text", "numeric", "numeric", "text")) |>
+  rename(cycle = 1, n = 2, p_hat = 3, c_interval = 4) |>
+  mutate(country = case_when(is.na(p_hat) ~ cycle,
+                              TRUE ~ NA),
+         country = na.locf(country),
+         n = c(NA, na.locf(n))) |>
+  filter(!is.na(p_hat)) |>
+  separate_wider_delim(cols = country,
+                       delim = "(",
+                       names = c("country", "country_note"),
+                       too_few = "align_start") |>
+  mutate(country_note = str_sub(country_note, end = -2)) |>
+  separate_wider_delim(cols = c_interval,
+                       delim = '-',
+                       names = c("left_ci", "right_ci")) |>
+  mutate(left_ci = as.numeric(left_ci)/100,
+         right_ci = as.numeric(right_ci)/100)
+
+t_25 |>
+  kable(caption = "Table 25")
+```

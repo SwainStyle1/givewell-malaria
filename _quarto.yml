@@ -1,0 +1,25 @@
+project:
+  type: book
+
+book:
+  title: "GiveWell - Malaria"
+  author: "GiveWell with new format from Dr. Ryan T. Johnson"
+  date: "10/9/2024"
+  chapters:
+    - index.qmd
+    - source_list.qmd
+    - source-2021-post-cycle-coverage.qmd
+    - source-2021-SMC-cycles-per-child.qmd
+    - source-2021-target-populations.qmd
+    - calculation-nigeria-2021-post-cycle-coverage.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+    code-summary: "Calculations"
+  pdf:
+    documentclass: scrreprt
+
+editor: source
+

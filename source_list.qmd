@@ -1,0 +1,37 @@
+# Source List 2019-2021
+
+This section lists the sources for this analysis and reproduces the tables from those sources.
+
+## Sources (2019)
+
+- Malaria Consortium, Answers to GiveWell's questions, July 2020 (unpublished)
+- Malaria Consortium, Answers to GiveWell's questions, September 2020 (unpublished)
+- Malaria Consortium, Burkina Faso end-of-round coverage survey report, 2019 (unpublished)
+- Malaria Consortium, Chad end-of-round coverage survey report, 2019 (unpublished)
+- [Malaria Consortium, Coverage report, 2019](http://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Coverage_report_2019.pdf)
+- [Malaria Consortium, End-of-cycle questionnaire, 2019](http://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_End_of_cycle_questionnaire_2019.pdf)
+- [Malaria Consortium, End-of-round questionnaire, 2019](http://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_End_of_round_questionnaire_2019.pdf)
+- Malaria Consortium, Nigeria end-of-round coverage survey report, 2019 (unpublished)
+- Malaria Consortium, SMC tally sheet, 2019
+
+## Sources (2020):
+- [Malaria Consortium, Nigeria EoC Questionnaire, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Nigeria_EoC_Questionnaire_2020_Redacted.pdf)
+- [Malaria Consortium, Nigeria Tally Sheet, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Nigeria_Tally_Sheet_2020.pdf)
+- [Malaria Consortium, 2020 SMC coverage report, Burkina Faso, Chad, Nigeria, Togo](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2020_SMC_coverage_report_Burkina_Faso_Chad_Nigeria_Togo.pdf)
+- [Malaria Consortium, Nigeria EoR Questionnaire, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Nigeria_EoR_Questionnaire_2020_Redacted.pdf)
+- [Malaria Consortium, Burkina Faso EoR Report, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Burkina_Faso_EoR_report_2020.pdf)
+- [Malaria Consortium, Chad EoR Report, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Chad_EoR_report_2020.pdf)
+- [Malaria Consortium, Nigeria EoR Report, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Nigeria_EoR_report_2020.pdf)
+- [Malaria Consortium, Togo EoR Report, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Togo_EoR_report_2020.pdf)
+- [Malaria Consortium, Philanthropy report, 2020](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortiums_seasonal_malaria_chemoprevention_program_Philanthropy_report_2020.pdf)
+
+## Sources (2021):
+- [Malaria Consortium, 2021 SMC Coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf)
+  - See tables 4, 14, 15, and 16 at @sec-post-cycle
+  - See table 25 at @sec-smc-per-child
+- [Malaria Consortium, Mozambique post-round results, 2021](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Mozambique_end_of_round_survey_report_2021.pdf)
+- [Malaria Consortium, Togo EoR report, 2021](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Togo_end_of_round_survey_report_2021.pdf)
+- [Malaria Consortium, Nigeria EoR report, 2021](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Nigeria_end_of_round_survey_report_2021.pdf)
+- [Malaria Consortium, Chad EoR report, 2021](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_Chad_end_of_round_survey_report_2021.pdf)
+- Malaria Consortium, Responses to GiveWell questions, August 9, 2022 (unpublished)
+

@@ -1,0 +1,180 @@
+# Source: 2021 post-cycle and post-round coverage {#sec-post-cycle}
+
+The tables below are from [Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf)
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(zoo)
+library(scales)
+options(knitr.kable.NA = '')
+```
+
+## Table 14: Proportions of eligible children (3–59 months) who received day 1 SPAQ by country and survey
+
+> The denominator in Table 14 is all eligible children present in the household at the time of cycle 4 whose caregivers responded to the question on coverage. For Table 17, it was the number of children who were present in the household during all cycles of the 2021 round, and whose caregivers gave information on coverage for all the cycles.
+>
+> -- Malaria Consortium, Response to GiveWell Questions, August 9, 2022 (unpublished)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-14.xlsx") |>
+  kable(caption = "Table 14")
+```
+
+## Table 15: Proportions of eligible who received day 1 SPAQ, by Nigerian state and survey (states with four cycles)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-15.xlsx") |>
+  kable(caption = "Table 15")
+```
+
+## Table 16: Proportions of eligible who received day 1 SPAQ, by Nigerian state and survey (states with five cycles)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-16.xlsx") |>
+  kable(caption = "Table 16")
+```
+
+## Tidy Up the Data
+
+The tables from the report are not in a tidy format with observations in rows and variables in columns, so we tidy the data and compine tables 15 and 16 since they both relate to Nigerian states.
+
+### Table 4
+
+Table 4 is already tidy. All we do here is simplify the variable names.
+
+```{r}
+t4 <- read_excel("sources/2021/malaria-consortium-2021-table-04.xlsx",
+                   col_types = c("text", "numeric", "numeric")) |>
+  rename(state = 1, clusters = 2, targets = 3)
+```
+
+### Table 14
+
+For Table 14, we perform the following operations:
+
+1. Simplify the variable names.
+1. Create a new variable named `country`, and copy the data from the `survey` variable when `n` is empty.
+1. For every empty value for `country`, fill it with the closest non-empty value above it.
+1. Drop the rows where `n` is empty.
+1. Separate country names from the parenthetical notes.
+1. Delete the ")" at the end of the parenthetical notes.
+1. Separate the `c_interal` variable into `left_ci` and `right_ci`, then make store them as numbers.
+
+```{r}
+t_14 <- read_excel("sources/2021/malaria-consortium-2021-table-14.xlsx",
+                   col_types = c("text", "numeric", "numeric", "text")) |>
+  rename(survey = 1, n = 2, p_hat = 3, c_interval = 4) |>
+  mutate(country = case_when(is.na(n) ~ survey,
+                              TRUE ~ NA),
+         country = na.locf(country)) |>
+  filter(!is.na(n)) |>
+  separate_wider_delim(cols = country,
+                       delim = "(",
+                       names = c("country", "country_note"),
+                       too_few = "align_start") |>
+  mutate(country_note = str_sub(country_note, end = -2)) |>
+  separate_wider_delim(cols = c_interval,
+                       delim = '-',
+                       names = c("left_ci", "right_ci")) |>
+  mutate(left_ci = as.numeric(left_ci)/100,
+         right_ci = as.numeric(right_ci)/100)
+```
+
+### Table 15
+
+For Table 15, we perform the following operations:
+
+1. Simplify the variable names.
+1. Create a new variable named `country` that is equal to "Nigeria," because all of this data is from Nigera.
+1. Create a new variable named `state`, and copy the data from the `survey` variable when `n` is empty.
+1. For every empty value for `state`, fill it with the closest non-empty value above it.
+1. Drop the rows where `n` is empty.
+1. Separate the `c_interal` variable into `left_ci` and `right_ci`, then make store them as numbers.
+1. This table relates to the Nigerian states that had 5 cycles, so create a variable to remember this.
+
+```{r}
+t_15 <- read_excel("sources/2021/malaria-consortium-2021-table-15.xlsx",
+                   col_types = c("text", "numeric", "numeric", "text")) |>
+  rename(survey = 1, n = 2, p_hat = 3, c_interval = 4) |>
+  mutate(country = "Nigeria",
+         state = case_when(is.na(n) ~ survey,
+                              TRUE ~ NA),
+         state = na.locf(state)) |>
+  filter(!is.na(n)) |>
+  separate_wider_delim(cols = c_interval,
+                       delim = '-',
+                       names = c("left_ci", "right_ci")) |>
+  mutate(left_ci = as.numeric(left_ci)/100,
+         right_ci = as.numeric(right_ci)/100) |>
+  mutate(n_cycles = "5-cycle states")
+```
+
+### Table 16
+
+For Table 15, we perform the following operations:
+
+1. Simplify the variable names.
+1. Create a new variable named `country` that is equal to "Nigeria," because all of this data is from Nigera.
+1. Create a new variable named `state`, and copy the data from the `survey` variable when `n` is empty.
+1. For every empty value for `state`, fill it with the closest non-empty value above it.
+1. Drop the rows where `n` is empty.
+1. Separate the `c_interal` variable into `left_ci` and `right_ci`, then make store them as numbers.
+1. This table relates to the Nigerian states that had 4 cycles, so create a variable to remember this.
+
+```{r}
+t_16 <- read_excel("sources/2021/malaria-consortium-2021-table-16.xlsx",
+                   col_types = c("text", "numeric", "numeric", "text")) |>
+  rename(survey = 1, n = 2, p_hat = 3, c_interval = 4) |>
+  mutate(country = "Nigeria",
+         state = case_when(is.na(n) ~ survey,
+                              TRUE ~ NA),
+         state = na.locf(state)) |>
+  filter(!is.na(n)) |>
+  separate_wider_delim(cols = c_interval,
+                       delim = '-',
+                       names = c("left_ci", "right_ci")) |>
+  mutate(left_ci = as.numeric(left_ci)/100,
+         right_ci = as.numeric(right_ci)/100) |>
+  mutate(n_cycles = "4-cycle states")
+```
+
+### Bind Tables 15 and 16
+
+Tables 15 and 16 both related to Nigerian states. It makes sense to bind them.
+
+```{r}
+t_1516 <- t_15 |>
+  bind_rows(t_16)
+```
+
+## Percentage of targeted children interviewed for post-cycle surveys, Nigeria {#sec-targetted-nigeria}
+
+This subsection mirrors the calculations at the bottom of [GiveWell's spreadsheet](https://docs.google.com/spreadsheets/d/1WqNL0PEA4cT470ALp0nItEEU8gM_IlhVNIJK1GqnFVE/edit?gid=1664509768#gid=1664509768).
+
+```{r}
+gw1516 <- t_1516 |>
+  left_join(t4, join_by(state)) |>
+  group_by(survey) |>
+  summarise(sampled = sum(n), targeted = sum(targets)) |>
+  mutate(percent_targeted_interviewed = label_percent(accuracy = 1)(sampled/targeted)) |>
+  filter(survey != "EoR: cycle 5")
+
+gw1516|>
+  kable(digits = 1, format.args = list(big.mark = ","))
+```
+
+Note that only the state with five cycles--Kogi, Nasarawa, and Plateau--had EoC: cycle 1.
+
+There is one discrepany between this table and [GiveWell's spreadsheet](https://docs.google.com/spreadsheets/d/1WqNL0PEA4cT470ALp0nItEEU8gM_IlhVNIJK1GqnFVE/edit?gid=1664509768#gid=1664509768) cell C82. This is that EoC: cycle 2 in the targetted column as 26900. However, this analysis does not count those targetted in Borno since there is no cycle 2 listed for Borno in Table 16 from [Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf).
+
+## Save the tidy data
+```{r}
+save(list = c('t_14', 't_15', 't_16', 't_1516', 'gw1516'), file="data/2021/post-cycle-coverage.R")
+```
+

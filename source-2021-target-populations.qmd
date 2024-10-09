@@ -1,0 +1,73 @@
+# Source: Targetted Populations
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(zoo)
+library(scales)
+library(gt)
+options(knitr.kable.NA = '')
+```
+
+## Targetted Population by Country
+
+```{r}
+t_1 <- read_excel("sources/2021/malaria-consortium-2021-table-01.xlsx", 
+                 sheet = "Sheet1", n_max = 8) |>
+  separate_wider_delim(cols = 1,
+                       delim = "(",
+                       too_many = "drop",
+                       names = "country") |>
+  separate_wider_delim(cols = 3,
+                       delim = "(",
+                       too_many = "drop",
+                       names = "target_pop") |>
+  select(country, target_pop) |>
+  mutate(target_pop = as.numeric(gsub(",","",target_pop)))
+
+t_1 |> gt()
+```
+
+
+## Nigeria
+
+This is using the target population from Nasarawa[2] row.
+
+>The target population for Nasarawa was overestimated in 2021. The target population for Nasarawa was revised downwards after cycle 2 and administrative coverage re-estimated.
+>
+> --Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda. Pg. 31
+
+If we changed this to the 952,480 target population, which was the original estimate, then the total target population for Nigeria would match that reported in Table 1, Pg. 11 (8,399,151): 
+$$8,041,804 + (952,480 - 595,133) = 8,399,151$$
+
+We are using the updated figure, because it is more accurate.
+
+```{r}
+t_8 = read_excel("sources/2021/malaria-consortium-2021-table-08.xlsx", 
+                 sheet = "Sheet1", col_names = FALSE, 
+                 skip = 3, n_max = 28) |>
+  select(1:4) |>
+  rename(country = 1, state = 2, age_group = 3, target_pop = 4) |>
+  mutate(country = na.locf(country),
+         state = na.locf(state)) |>
+  filter(age_group == '3–59 months') |>
+  select(-age_group) |>
+  mutate(state = case_when(state == 'Nasarawa2' ~ 'Nasarawa',
+                           TRUE ~ state)) |>
+  suppressMessages()
+
+t_8 |> gt()
+```
+
+## Save the data
+
+```{r}
+save(list = c('t_1', 't_8'), file="data/2021/target_populations.R")
+```
+
+

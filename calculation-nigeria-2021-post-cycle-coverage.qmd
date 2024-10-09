@@ -1,0 +1,113 @@
+# Calculation: Nigeria 2021 post-cycle coverage
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(zoo)
+library(scales)
+library(gt)
+options(knitr.kable.NA = '')
+```
+
+## Nigeria post-cycle coverage, total, weighted by target population (added by GiveWell)
+
+The calculation from this sheet relies on target populations from Table 8 from [Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf).  We only need the target populations for children 5 and under, so we choose that subset of the table.
+
+This is using the target population from Nasarawa[2] row.
+
+>The target population for Nasarawa was overestimated in 2021. The target population for Nasarawa was revised downwards after cycle 2 and administrative coverage re-estimated.
+>
+> --Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda. Pg. 31
+
+If we changed this to the 952,480 target population, which was the original estimate, then the total target population for Nigeria would match that reported in Table 1, Pg. 11 (8,399,151): 
+8,041,804 + (952,480 - 595,133) = 8,399,151
+
+We are using the updated figure, because it is more accurate.  Below, we change the name of Nasarawa2 -> Nasarawa.  In the join operation later, the old numbers corresponding to Nasawawa1 will be dropped.
+
+```{r}
+t_8 = read_excel("sources/2021/malaria-consortium-2021-table-08.xlsx", 
+                 sheet = "Sheet1", col_names = FALSE, 
+                 skip = 3, n_max = 28) |>
+  select(1:4) |>
+  rename(country = 1, state = 2, age_group = 3, target_pop = 4) |>
+  mutate(country = na.locf(country),
+         state = na.locf(state)) |>
+  filter(age_group == '3–59 months') |>
+  select(-age_group) |>
+  mutate(state = case_when(state == 'Nasarawa2' ~ 'Nasarawa',
+                           TRUE ~ state)) |>
+  suppressMessages()
+```
+
+We then join the target population numbers to our data from tables 15 and 16.  Then we calculate summary statistics, both for the 4-cycle and 5-cycle groups, then grand totals.
+
+```{r}
+load("data/2021/post-cycle-coverage.R")
+t_1516 |>
+  left_join(t_8, join_by(country, state)) |>
+  select(state, target_pop, p_hat, n_cycles, survey) |>
+  pivot_wider(id_cols = c(state, target_pop, n_cycles),
+              names_from = survey,
+              values_from = p_hat) |>
+  group_by(n_cycles) |>
+  gt() |>
+  fmt_percent(
+    columns = 3:8,
+    decimals = 1
+  ) |>
+  fmt_number(columns = 2, decimals = 0) |>
+  sub_missing() |>
+  summary_rows(
+    columns = target_pop,
+    fns = list('Group Total' = ~ sum(.)),
+    fmt = ~fmt_number(., decimals = 0)
+  ) |>
+  summary_rows(
+    columns = 3:8,
+    fns = list('Group Total' = ~ weighted.mean(x=., w=target_pop, na.rm = TRUE)),
+    fmt = ~fmt_percent(., decimals = 1)
+  ) |>
+  grand_summary_rows(
+    columns = target_pop,
+    fns = list('Total' = ~ sum(.)),
+    fmt = ~fmt_number(., decimals = 0)
+  ) |>
+  grand_summary_rows(
+    columns = 3:8,
+    fns = list('Total' = ~ weighted.mean(x=., w=target_pop, na.rm = TRUE)),
+    fmt = ~fmt_percent(., decimals = 1)
+  )
+```
+
+
+## Error in Original Calculations {#sec-calculation-error}
+
+There is one discrepancy between this table and [GiveWell's spreadsheet](https://docs.google.com/spreadsheets/d/1WqNL0PEA4cT470ALp0nItEEU8gM_IlhVNIJK1GqnFVE/edit?gid=1419867728#gid=1419867728) cells `F7`, `F8`, and `F14`.  This is because the original spreadsheet has the incorrect forumla in `F7`. The formula it ought to have in `F7` is `=C34`.  The correct value in cell `F7` is `90.4%`.  This incorrect value then affects the totals in `F8` and `F14`.
+
+## Tables 15 and 16
+
+The tables below are from [Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf)
+
+These tables are also introduced in @sec-post-cycle.
+
+### Table 15: Proportions of eligible who received day 1 SPAQ, by Nigerian state and survey (states with four cycles)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-15.xlsx") |>
+  kable(caption = "Table 15")
+```
+
+### Table 16: Proportions of eligible who received day 1 SPAQ, by Nigerian state and survey (states with five cycles)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-16.xlsx") |>
+  kable(caption = "Table 16")
+```
+
+
+
