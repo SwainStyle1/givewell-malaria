@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "GiveWell - Malaria",
     "section": "",
-    "text": "Preface\nThis project is my attempt to redo some of GiveWell’s calculations using the format of an Quarto book, and mostly using the programming language R instead of their method of Google spreadsheets and separate webpages.\nThis work is currently very incomplete, but I did notice two small (and ultimately insignificant) errors in two of their spreadsheets.\n\nSee 2.5 Percentage of targeted children interviewed for post-cycle surveys, Nigeria\nSee Error in Original Calculations",
+    "text": "Preface\nThis project is my attempt to redo some of GiveWell’s calculations using the format of an Quarto book, and mostly using the programming language R instead of their method of Google spreadsheets and separate webpages.\nThis work is currently very incomplete, but I did notice two small (and ultimately insignificant) errors in two of their spreadsheets.\n\nSee 2.5 Percentage of targeted children interviewed for post-cycle surveys, Nigeria\nSee 5.2 Error in Original Calculations",
     "crumbs": [
       "Preface"
     ]
@@ -44,7 +44,7 @@
     "href": "source_list.html#sources-2021",
     "title": "1  Source List 2019-2021",
     "section": "1.3 Sources (2021):",
-    "text": "1.3 Sources (2021):\n\nMalaria Consortium, 2021 SMC Coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda\n\nSee tables 4, 14, 15, and 16 at Chapter 2\nSee table 25 at Section 1\n\nMalaria Consortium, Mozambique post-round results, 2021\nMalaria Consortium, Togo EoR report, 2021\nMalaria Consortium, Nigeria EoR report, 2021\nMalaria Consortium, Chad EoR report, 2021\nMalaria Consortium, Responses to GiveWell questions, August 9, 2022 (unpublished)",
+    "text": "1.3 Sources (2021):\n\nMalaria Consortium, 2021 SMC Coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda\n\nSee tables 4, 14, 15, and 16 at Chapter 2\nSee table 25 at Chapter 3\n\nMalaria Consortium, Mozambique post-round results, 2021\nMalaria Consortium, Togo EoR report, 2021\nMalaria Consortium, Nigeria EoR report, 2021\nMalaria Consortium, Chad EoR report, 2021\nMalaria Consortium, Responses to GiveWell questions, August 9, 2022 (unpublished)",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Source List 2019-2021</span>"
     ]
