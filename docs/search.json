@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "GiveWell - Malaria",
     "section": "",
-    "text": "Preface\nThis project is my attempt to redo some of GiveWell’s calculations using the format of an Quarto book, and mostly using the programming language R instead of their method of Google spreadsheets and separate webpages.\nThis work is currently very incomplete, but I did notice two small (and ultimately insignificant) errors in two of their spreadsheets.\n\nSee 2.5 Percentage of targeted children interviewed for post-cycle surveys, Nigeria\nSee 5.2 Error in Original Calculations",
+    "text": "Preface\nThis project is my attempt to redo some of GiveWell’s calculations using the format of a Quarto book, and mostly using the programming language R instead of their method of Google spreadsheets and separate webpages.\nThis work is currently very incomplete, but I did notice two small (and ultimately insignificant) errors in two of their spreadsheets.\n\nSee 2.5 Percentage of targeted children interviewed for post-cycle surveys, Nigeria\nSee 5.2 Error in Original Calculations",
     "crumbs": [
       "Preface"
     ]
