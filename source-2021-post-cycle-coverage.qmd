@@ -146,7 +146,7 @@ t_16 <- read_excel("sources/2021/malaria-consortium-2021-table-16.xlsx",
 
 ### Bind Tables 15 and 16
 
-Tables 15 and 16 both related to Nigerian states. It makes sense to bind them.
+Tables 15 and 16 are both related to Nigerian states, so it makes sense to bind them together.
 
 ```{r}
 t_1516 <- t_15 |>
