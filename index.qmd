@@ -6,3 +6,5 @@ This work is currently very incomplete, but I did notice two small (and ultimate
 
 - See @sec-targetted-nigeria
 - See @sec-calculation-error
+
+The Github repo for this project can be found [here](https://github.com/MathAtGrace/givewell-malaria)
