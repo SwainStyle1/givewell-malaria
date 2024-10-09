@@ -144,7 +144,7 @@
     "href": "calculation-nigeria-2021-post-cycle-coverage.html#sec-calculation-error",
     "title": "5  Calculation: Nigeria 2021 post-cycle coverage",
     "section": "5.2 Error in Original Calculations",
-    "text": "5.2 Error in Original Calculations\nThere is one discrepancy between this table and GiveWell’s spreadsheet cells F7, F8, and F14. This is because the original spreadsheet has the incorrect forumla in F7. The formula it ought to have in F7 is =C34. The correct value in cell F7 is 90.4%. This incorrect value then affects the totals in F8 and F14.",
+    "text": "5.2 Error in Original Calculations\nThere is one discrepancy between the table above and GiveWell’s spreadsheet cells F7, F8, and F14. This is because the original spreadsheet has the incorrect forumla in F7. The formula it ought to have in F7 is =C34. The correct value in cell F7 is 90.4%. This incorrect value then affects the totals in F8 and F14.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Calculation: Nigeria 2021 post-cycle coverage</span>"
     ]
