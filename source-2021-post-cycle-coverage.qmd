@@ -64,7 +64,7 @@ For Table 14, we perform the following operations:
 1. Drop the rows where `n` is empty.
 1. Separate country names from the parenthetical notes.
 1. Delete the ")" at the end of the parenthetical notes.
-1. Separate the `c_interal` variable into `left_ci` and `right_ci`, then make store them as numbers.
+1. Separate the `c_interval` variable into `left_ci` and `right_ci`, then store them as numbers.
 
 ```{r}
 t_14 <- read_excel("sources/2021/malaria-consortium-2021-table-14.xlsx",
