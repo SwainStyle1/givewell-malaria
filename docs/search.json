@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "GiveWell - Malaria",
     "section": "",
-    "text": "Preface\nThis project is my attempt to redo some of GiveWell’s calculations using the format of a Quarto book, and mostly using the programming language R instead of their method of Google spreadsheets and separate webpages.\nThis work is currently very incomplete, but I did notice two small (and ultimately insignificant) errors in two of their spreadsheets.\n\nSee 2.5 Percentage of targeted children interviewed for post-cycle surveys, Nigeria\nSee 5.2 Error in Original Calculations\n\nThe Github repo for this project can be found here",
+    "text": "Preface\nThis project is an attempt to redo some of GiveWell’s calculations using the format of a Quarto book, and mostly using the programming language R instead of their method of Google spreadsheets and separate webpages.\nThe Github repo for this project can be found here",
     "crumbs": [
       "Preface"
     ]
@@ -211,6 +211,26 @@
     "text": "4.3 Save the data\n\n\nCalculations\nsave(list = c('t_1', 't_8'), file=\"data/2021/target_populations.R\")",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Source: Targetted Populations</span>"
+    ]
+  },
+  {
+    "objectID": "malaria_consortium_smc_coverage_2021.html",
+    "href": "malaria_consortium_smc_coverage_2021.html",
+    "title": "6  Malaria Consortium SMC Coverage Report 2021",
+    "section": "",
+    "text": "6.0.1 Table 4\nIn Nigeria, between 10 and 20 health facilities were randomly selected from each LGA in proportion to the LGA’s population size. The catchment areas of these facilities were considered SAs for the purposes of the EoC surveys. Three settlements were randomly selected from the catchment area of each of these three health facilities, and eight or nine compounds were sampled from each to give a total of 25 compounds sampled per health facility catchment area. This is shown is Table 4\nTable 4 is already tidy. All we do here is simplify the variable names.\nCalculations\nt4 &lt;- read_excel(\"sources/2021/malaria-consortium-2021-table-04.xlsx\",\n                   col_types = c(\"text\", \"numeric\", \"numeric\")) |&gt;\n  rename(state = 1, clusters = 2, targets = 3)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Malaria Consortium SMC Coverage Report 2021</span>"
+    ]
+  },
+  {
+    "objectID": "malaria_consortium_smc_coverage_2021.html#table-14-proportions-of-eligible-children-359-months-who-received-day-1-spaq-by-country-and-survey",
+    "href": "malaria_consortium_smc_coverage_2021.html#table-14-proportions-of-eligible-children-359-months-who-received-day-1-spaq-by-country-and-survey",
+    "title": "6  Malaria Consortium SMC Coverage Report 2021",
+    "section": "6.1 Table 14: Proportions of eligible children (3–59 months) who received day 1 SPAQ by country and survey",
+    "text": "6.1 Table 14: Proportions of eligible children (3–59 months) who received day 1 SPAQ by country and survey\n\nThe denominator in Table 14 is all eligible children present in the household at the time of cycle 4 whose caregivers responded to the question on coverage. For Table 17, it was the number of children who were present in the household during all cycles of the 2021 round, and whose caregivers gave information on coverage for all the cycles.\n– Malaria Consortium, Response to GiveWell Questions, August 9, 2022 (unpublished)\n\n\n\nCalculations\nread_excel(\"sources/2021/malaria-consortium-2021-table-14.xlsx\") |&gt;\n  datatable(caption = \"Table 14\")",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Malaria Consortium SMC Coverage Report 2021</span>"
     ]
   }
 ]

@@ -1,0 +1,50 @@
+# Malaria Consortium SMC Coverage Report 2021 {#sec-smc-2021}
+
+This section inputs tables from the [Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda](https://files.givewell.org/files/DWDA%202009/Malaria%20Consortium/Malaria_Consortium_2021_SMC_coverage_report_Burkina_Faso_Chad_Mozambique_Nigeria_Togo_and_Uganda.pdf).  Then it does calculations necessary for inputs into later documents.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(zoo)
+library(scales)
+library(gt)
+library(DT)
+library(downloadthis)
+library(magrittr)
+```
+
+### Table 4
+
+In Nigeria, between 10 and 20 health facilities were randomly selected from each LGA in proportion
+to the LGA’s population size. The catchment areas of these facilities were considered SAs for the
+purposes of the EoC surveys. Three settlements were randomly selected from the catchment area of
+each of these three health facilities, and eight or nine compounds were sampled from each to give a
+total of 25 compounds sampled per health facility catchment area.  This is shown is [Table 4](../sources/2021/malaria-consortium-2021-table-04.xlsx)
+
+Table 4 is already tidy. All we do here is simplify the variable names.
+
+```{r}
+
+t4 <- read_excel("sources/2021/malaria-consortium-2021-table-04.xlsx",
+                   col_types = c("text", "numeric", "numeric")) |>
+  rename(state = 1, clusters = 2, targets = 3)
+```
+
+
+
+## Table 14: Proportions of eligible children (3–59 months) who received day 1 SPAQ by country and survey
+
+> The denominator in Table 14 is all eligible children present in the household at the time of cycle 4 whose caregivers responded to the question on coverage. For Table 17, it was the number of children who were present in the household during all cycles of the 2021 round, and whose caregivers gave information on coverage for all the cycles.
+>
+> -- Malaria Consortium, Response to GiveWell Questions, August 9, 2022 (unpublished)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-14.xlsx") |>
+  datatable(caption = "Table 14")
+```
+

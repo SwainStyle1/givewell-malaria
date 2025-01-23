@@ -13,6 +13,7 @@ book:
     - source-2021-SMC-cycles-per-child.qmd
     - source-2021-target-populations.qmd
     - calculation-nigeria-2021-post-cycle-coverage.qmd
+    - malaria_consortium_smc_coverage_2021.qmd
 
 format:
   html:
