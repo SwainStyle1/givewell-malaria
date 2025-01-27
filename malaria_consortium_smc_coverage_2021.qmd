@@ -18,13 +18,9 @@ library(downloadthis)
 library(magrittr)
 ```
 
-### Table 4
+## Table 4
 
-In Nigeria, between 10 and 20 health facilities were randomly selected from each LGA in proportion
-to the LGA’s population size. The catchment areas of these facilities were considered SAs for the
-purposes of the EoC surveys. Three settlements were randomly selected from the catchment area of
-each of these three health facilities, and eight or nine compounds were sampled from each to give a
-total of 25 compounds sampled per health facility catchment area.  This is shown is [Table 4](../sources/2021/malaria-consortium-2021-table-04.xlsx)
+[Table 4](https://github.com/MathAtGrace/givewell-malaria/raw/refs/heads/master/sources/2021/malaria-consortium-2021-table-04.xlsx) from the report shows data relating to Malaria Consortium's cluster sampling methods.
 
 Table 4 is already tidy. All we do here is simplify the variable names.
 
@@ -33,18 +29,90 @@ Table 4 is already tidy. All we do here is simplify the variable names.
 t4 <- read_excel("sources/2021/malaria-consortium-2021-table-04.xlsx",
                    col_types = c("text", "numeric", "numeric")) |>
   rename(state = 1, clusters = 2, targets = 3)
+
+t4 |>
+  gt() |>
+  tab_header(
+    title = "Table 4",
+    subtitle = "From Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda"
+    )
 ```
 
 
 
 ## Table 14: Proportions of eligible children (3–59 months) who received day 1 SPAQ by country and survey
 
+[Table 14](https://github.com/MathAtGrace/givewell-malaria/raw/refs/heads/master/sources/2021/malaria-consortium-2021-table-14.xlsx) from the report shows the Malaria Consortium's estimates of the proportion of children 3-59 months who received day 1 sulfadoxine-pyrimethamine and amodiaquine (SPAQ) by country and surevey. GiveWell has a note about the denominators for these percentages in this table:
+
 > The denominator in Table 14 is all eligible children present in the household at the time of cycle 4 whose caregivers responded to the question on coverage. For Table 17, it was the number of children who were present in the household during all cycles of the 2021 round, and whose caregivers gave information on coverage for all the cycles.
 >
 > -- Malaria Consortium, Response to GiveWell Questions, August 9, 2022 (unpublished)
 
+For Table 14, we perform the following operations:
+
+1. Simplify the variable names.
+1. Create a new variable named `country`, and copy the data from the `survey` variable when `n` is empty.
+1. For every empty value for `country`, fill it with the closest non-empty value above it.
+1. Drop the rows where `n` is empty.
+1. Separate country names from the parenthetical notes.
+1. Delete the ")" at the end of the parenthetical notes.
+
 ```{r}
-read_excel("sources/2021/malaria-consortium-2021-table-14.xlsx") |>
-  datatable(caption = "Table 14")
+t14 <- read_excel("sources/2021/malaria-consortium-2021-table-14.xlsx",
+                   col_types = c("text", "numeric", "numeric", "text")) |>
+  rename(survey = 1, n = 2, p_hat = 3, c_interval = 4) |>
+  select(-c_interval) |>
+  mutate(country = case_when(is.na(n) ~ survey,
+                              TRUE ~ NA),
+         country = na.locf(country)) |>
+  filter(!is.na(n)) |>
+  separate_wider_delim(cols = country,
+                       delim = " (",
+                       names = c("country", "note"),
+                       too_few = "align_start") |>
+  mutate(note = str_sub(note, end = -2))
+
+t14 |>
+  gt(
+    rowname_col = "survey", 
+    groupname_col = "country",
+    row_group_as_column = TRUE
+    ) |>
+  sub_missing(missing_text = "") |>
+  tab_header(
+    title = "Table 14",
+    subtitle = "From Malaria Consortium, 2021 SMC coverage report, Burkina Faso, Chad, Mozambique, Nigeria, Togo, and Uganda"
+    )
+
+```
+
+## Table 15: Proportions of eligible who received day 1 SPAQ, by Nigerian state and survey (states with four cycles)
+
+[Table 15](https://github.com/MathAtGrace/givewell-malaria/raw/refs/heads/master/sources/2021/malaria-consortium-2021-table-15.xlsx) from the report shows the Malaria Consortium's estimates of the proportion of children 3-59 months who received day 1 sulfadoxine-pyrimethamine and amodiaquine (SPAQ) by country and surevey. GiveWell has a note about the denominators for these percentages in this table:
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-15.xlsx") |>
+  kable(caption = "Table 15")
+```
+
+## Table 16: Proportions of eligible who received day 1 SPAQ, by Nigerian state and survey (states with five cycles)
+
+```{r}
+read_excel("sources/2021/malaria-consortium-2021-table-16.xlsx") |>
+  kable(caption = "Table 16")
+```
+
+## Tidy Up the Data
+
+The tables from the report are not in a tidy format with observations in rows and variables in columns, so we tidy the data and compine tables 15 and 16 since they both relate to Nigerian states.
+
+### Table 4
+
+Table 4 is already tidy. All we do here is simplify the variable names.
+
+```{r}
+t4 <- read_excel("sources/2021/malaria-consortium-2021-table-04.xlsx",
+                   col_types = c("text", "numeric", "numeric")) |>
+  rename(state = 1, clusters = 2, targets = 3)
 ```
 
